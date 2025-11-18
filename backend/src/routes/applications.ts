@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response } from "express";
 import { body, validationResult } from "express-validator";
 import { authMiddleware, requireRole, AuthRequest } from "../middleware/auth.js";
 import Application from "../models/Application.js";
@@ -14,7 +14,7 @@ router.post(
   authMiddleware,
   requireRole("JOB_SEEKER"),
   [body("jobId").notEmpty(), body("coverLetter").optional().trim()],
-  async (req: AuthRequest, res) => {
+  async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -55,20 +55,25 @@ router.post(
 // @route   GET /api/applications/my-applications
 // @desc    Get job seeker's applications
 // @access  Private/Job Seeker
-router.get("/my-applications/list", authMiddleware, requireRole("JOB_SEEKER"), async (req: AuthRequest, res) => {
-  try {
-    const applications = await Application.find({ jobSeekerId: req.userId })
-      .populate({
-        path: "jobId",
-        populate: { path: "employerId", select: "name company" },
-      })
-      .sort({ createdAt: -1 });
+router.get(
+  "/my-applications/list",
+  authMiddleware,
+  requireRole("JOB_SEEKER"),
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const applications = await Application.find({ jobSeekerId: req.userId })
+        .populate({
+          path: "jobId",
+          populate: { path: "employerId", select: "name company" },
+        })
+        .sort({ createdAt: -1 });
 
-    res.json({ applications });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+      res.json({ applications });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
   }
-});
+);
 
 // @route   PATCH /api/applications/:id/status
 // @desc    Update application status
@@ -78,7 +83,7 @@ router.patch(
   authMiddleware,
   requireRole("EMPLOYER"),
   [body("status").isIn(["PENDING", "REVIEWED", "INTERVIEWED", "ACCEPTED", "REJECTED"])],
-  async (req: AuthRequest, res) => {
+  async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -107,5 +112,3 @@ router.patch(
 );
 
 export default router;
-
-
