@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  body {
+    @apply bg-slate-950/95 dark:bg-slate-950 text-slate-100 antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
+      radial-gradient(circle at top right, rgba(129, 140, 248, 0.14), transparent 55%),
+      radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.12), transparent 55%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .card {
+    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 shadow-[0_18px_60px_rgba(15,23,42,0.7)] hover:shadow-[0_22px_70px_rgba(15,23,42,0.9)] transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-fuchsia-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition-all duration-200 hover:shadow-xl hover:shadow-fuchsia-500/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/60 px-6 py-3 text-sm font-semibold text-slate-50/90 shadow-[0_14px_45px_rgba(15,23,42,0.85)] hover:bg-slate-800/80 hover:text-white hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500/70;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-slate-700/70 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 shadow-inner shadow-slate-950/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70 focus-visible:border-sky-400/60 transition-all duration-200;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium tracking-wide shadow-sm;
+  }
+
+  .badge-success {
+    @apply bg-emerald-500/15 text-emerald-200 border border-emerald-400/40;
+  }
+
+  .badge-warning {
+    @apply bg-amber-500/10 text-amber-200 border border-amber-400/40;
+  }
+
+  .badge-info {
+    @apply bg-sky-500/15 text-sky-200 border border-sky-400/40;
+  }
+
+  .badge-error {
+    @apply bg-rose-500/15 text-rose-200 border border-rose-400/40;
+  }
+
+  .badge-pending {
+    @apply bg-slate-700/70 text-slate-200 border border-slate-500/60;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60 backdrop-blur-2xl shadow-[0_22px_80px_rgba(15,23,42,0.95)];
+  }
+
+  .hero-orbit {
+    @apply pointer-events-none absolute rounded-full bg-gradient-to-r from-sky-500/15 via-indigo-500/10 to-fuchsia-500/15 blur-3xl;
+  }
+}
+
+
