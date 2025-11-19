@@ -12,12 +12,28 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:3000",
-  credentials: true,
-}));
+// --- CORS CONFIG ---
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.CORS_ORIGIN,
+  process.env.CLIENT_URL,
+]
+  .filter(Boolean); // remove undefined values
 
+app.use(
+  cors({
+    origin(origin, callback) {
+      // allow Postman / curl (no origin) & our whitelisted origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
+    },
+    credentials: true,
+  })
+);
+
+// --- CORE MIDDLEWARE ---
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
@@ -34,5 +50,3 @@ app.get("/health", (req, res) => {
 });
 
 export default app;
-
-
